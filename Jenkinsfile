@@ -1,34 +1,38 @@
 pipeline {
     agent any
 
-        // Build Stage
+    stages {
+        stage('Initialize') {
+            steps {
+                echo 'Initializing...'
+            }
+        }
         stage('Build') {
             steps {
-                // Add your build commands here (e.g., mvn clean install, npm install, etc.)
-                sh 'mvn clean' // Example using Maven
+                echo 'Building...'
             }
         }
-
-        // Run Tests Stage
-        stage('Run Tests') {
+        stage('Test') {
             steps {
-                // Shell command or script to execute your automation tests
-                sh 'mvn test'
+                echo 'Testing...'
             }
         }
-
-    stage('Compile') {
-      steps{
-          echo "Compiling the project"
-       sh 'mvn compile'
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
             }
+        }
     }
 
-        // Deployment Stage (Optional)
-        stage('Deploy') {
-          steps{
-          echo "Deploying the project"
-            }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if the pipeline succeeds'
+        }
+        failure {
+            echo 'This will run only if the pipeline fails'
         }
     }
 }
